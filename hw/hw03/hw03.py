@@ -25,6 +25,10 @@ def num_eights(num):
     True
     """
     "*** YOUR CODE HERE ***"
+    if num == 0:
+        return 0
+    else:
+        return (1 if (num%10==8) else 0)+num_eights(num//10)
 
 
 def digit_distance(num):
@@ -47,6 +51,10 @@ def digit_distance(num):
     True
     """
     "*** YOUR CODE HERE ***"
+    if num < 10:
+        return 0
+    else:
+        return abs((num//10%10)-(num%10))+digit_distance(num//10)
 
 
 def interleaved_sum(num, f_odd, f_even):
@@ -71,7 +79,15 @@ def interleaved_sum(num, f_odd, f_even):
     True
     """
     "*** YOUR CODE HERE ***"
-
+    def odd_sum(a):
+        if a==num:
+            return f_odd(a)
+        return f_odd(a)+even_sum(a+1)
+    def even_sum(a):
+        if a==num:
+            return f_even(a)
+        return f_even(a)+odd_sum(a+1)
+    return odd_sum(1)
 
 def next_smaller_dollar(bill):
     """Returns the next smaller bill in order."""
@@ -107,7 +123,17 @@ def count_dollars(sum_needed):
     True
     """
     "*** YOUR CODE HERE ***"
-
+    coins = [1,5,10,20,50,100]
+    def count_partitions(sum_needed,current_coin):
+        if sum_needed == 0:
+            return 1
+        elif sum_needed < 0:
+            return 0
+        elif current_coin == 1:
+            return 1
+        else:
+            return count_partitions(sum_needed-current_coin,current_coin)+count_partitions(sum_needed,next_smaller_dollar(current_coin))
+    return count_partitions(sum_needed,100)
 
 def next_larger_dollar(bill):
     """Returns the next larger bill in order."""
@@ -143,6 +169,16 @@ def count_dollars_upward(sum_needed):
     True
     """
     "*** YOUR CODE HERE ***"
+    def upward_partition(sum_needed,current_coin):
+        if sum_needed == 0:
+            return 1
+        elif current_coin>sum_needed:
+            return 0
+        elif current_coin == 100:
+            return 1 if sum_needed%current_coin == 0 else 0
+        else:
+            return upward_partition(sum_needed-current_coin,current_coin)+upward_partition(sum_needed,next_larger_dollar(current_coin))
+    return upward_partition(sum_needed,1)
 
 
 def print_move(origin, destination):
@@ -178,7 +214,13 @@ def move_stack(num, start, end):
     """
     assert 1 <= start <= 3 and 1 <= end <= 3 and start != end, "Bad start/end"
     "*** YOUR CODE HERE ***"
-
+    if num == 1:
+        print_move(start,end)
+        return
+    mid = 6 - start - end
+    move_stack(num-1,start,mid)
+    print_move(start,end)
+    move_stack(num-1,mid,end)
 
 from operator import sub, mul
 
@@ -193,5 +235,17 @@ def make_anonymous_factorial():
     ...     ['Assign', 'AnnAssign', 'AugAssign', 'NamedExpr', 'FunctionDef', 'Recursion'])
     True
     """
-    return 'YOUR_EXPRESSION_HERE'
+    return (lambda f:f(f))(lambda f: lambda n: 1 if n==1 else mul(n,f(f)(sub(n,1))))
 
+#定义函数的意义为
+#其会返回在这种weight与value,c的最大价值
+#那么正常有 knap(weight,value,c) = max(knap(拿了A)+A的价值 ,knap(不拿A))
+def knapsack(weights,value,c):
+    if len(weights)==1 and weights[0] <= c:
+        return value[0]
+    elif len(weights)==1 and weights[0] > c:
+        return 0
+    elif len(weights)!=1:
+        if weights[-1] > c:
+            return knapsack(weights[:-1],value[:-1],c) 
+        return max(knapsack(weights[:-1],value[:-1],c-weights[-1]) + value[-1] ,knapsack(weights[:-1],value[:-1],c))
