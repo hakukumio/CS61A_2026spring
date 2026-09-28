@@ -149,3 +149,8 @@ vite.config.ts.timestamp-*
 .turbo
 
 *.zip
+
+# Python
+**/__pycache__/
+*.py[cod]
+*$py.class
