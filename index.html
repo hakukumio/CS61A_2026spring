@@ -1,0 +1,2320 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="Computer Science, Programming, Berkeley, EECS" />
+    <meta name="author" content ="Dan Garcia, Manuel A Sabin" />
+    <!-- CHANGED CAREFUL -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="assets/js/hl.js"></script>
+    <script src="assets/js/toggledarkmode.js"></script>
+    <script>
+        // we aren't registering builtins since
+        //      (1) they don't render differently in the current CSS from other names
+        //      (2) it's a mess to list all of them. You can extract from the site but that takes effort
+        // if (1) ceases to be true, (2) might be worth the effort. For now, we're leaving as is
+        hljsRegister({
+            'keyword': "define if cond and or let begin lambda mu quote delay cons-stream set! quasiquote unquote unquote-splicing define-macro"
+        });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <script src="assets/js/dark-mode.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/mono-blue.css">
+    <link rel="icon" href="assets/images/favicon.ico">
+
+    
+
+    <title>CS 61A Spring 2026</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section" aria-label="Toggle Navigation Bar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">
+            CS 61A
+            <!-- <img style="max-width:60px; margin-top: -20px;" class="logo" src="/assets/images/logo.png"/> -->
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+
+            
+            <li><a href="index.html">Lectures</a></li>
+            
+            <li><a href="articles/about-61a/index.html">Syllabus</a></li>
+            
+            <li><a href="https://edstem.org/us/courses/93628/discussion">Ed</a></li>
+            
+            <li><a href="office-hours.html">Office Hours</a></li>
+            
+            <li><a href="articles/contact-61a/index.html">Contact</a></li>
+            
+
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="index.html#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Links
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="https://go.cs61a.org/extensions">Request an Extension</a></li>
+                
+                <li><a href="https://go.cs61a.org/regrades">Request a Regrade</a></li>
+                
+                <li><a href="https://oh.cs61a.org/">Office Hours Queue</a></li>
+                
+                <li><a href="https://www.gradescope.com/courses/1229052">Gradescope</a></li>
+                
+                <li><a href="https://sections.cs61a.org">Add/Change Sections</a></li>
+                
+                <li><a href="https://bcourses.berkeley.edu/courses/1547573/pages">Lecture Recordings</a></li>
+                
+                <li><a href="https://pythontutor.com/cp/composingprograms.html">Python Tutor</a></li>
+                
+                <li><a href="https://code.cs61a.org/">Code Editors</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="index.html#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Resources
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="resources.html">Past Exams & Websites</a></li>
+                
+                <li><a href="https://www.composingprograms.com">Textbook</a></li>
+                
+                <li><a href="articles/campus-res/index.html">Campus Resources</a></li>
+                
+                <li><a href="articles/advice/index.html">Advice from Students</a></li>
+                
+                <li><a href="articles/scheme-spec/index.html">Scheme Specifications</a></li>
+                
+                <li><a href="articles/scheme-builtins/index.html">Scheme Built-In Procedures</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="index.html#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Guides
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="https://drive.google.com/file/d/1O72u0ml65pibcjz-PXKpqeJDKaVqQ3D8/view">Debugging Guide</a></li>
+                
+                <li><a href="articles/studying/index.html">Studying Guide</a></li>
+                
+                <li><a href="articles/type-hints.html">Type Hints</a></li>
+                
+                <li><a href="articles/composition/index.html">Composition Guide</a></li>
+                
+                <li><a href="assets/pdfs/61a-mt1-study-guide.pdf">MT1 Study Guide</a></li>
+                
+                <li><a href="assets/pdfs/61a-mt2-study-guide.pdf">MT2 Study Guide</a></li>
+                
+                <li><a href="assets/pdfs/61a-final-study-guide.pdf">Final Study Guide</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="index.html#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Staff
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="instructor.html">Instructors</a></li>
+                
+                <li><a href="staff.html">TAs & Tutors</a></li>
+                
+                <li><a href="teaching-interns.html">Teaching Interns</a></li>
+                
+              </ul>
+            </li>
+            
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<header>
+  <h1>CS 61A: Structure and Interpretation of Computer Programs</h1>
+  <p>
+    Spring 2026:
+    
+    <!-- 
+      Instructors:
+    
+    Dan Garcia, Manuel A Sabin -->
+    Mon, Wed, Fri 1-2 p.m. in Dwinelle 155
+  </p>
+</header>
+
+<section id="announcements">
+  
+    <div class="announcement" id='announcement-0' style='display:block;'>
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Friday, May 1</h2>
+        <!-- <div><a href="#calendar_5_01">Jump to date</a></div> -->
+        <ul>
+  <li><p>Please sign up for an Scheme Oral Exam if you haven't done so.</p>
+
+  <ul>
+    <li>Please refer to <a href="https://edstem.org/us/courses/93628/discussion/8003051">Ed</a> for oral exam logistics.</li>
+    <li>Sign up <a href="http://go.cs61a.org/scheme-oral-exam">here</a> with your partner (if applicable).</li>
+  </ul></li>
+  <li><p>Final exam logistics have been announced. Please refer to <a href="https://edstem.org/us/courses/93628/discussion/8009105">Ed</a> for more information.</p>
+
+  <ul>
+    <li>If you have an alteration request, please fill <a href="https://go.cs61a.org/final-alt-req">this form</a> by 05/07.</li>
+  </ul></li>
+  <li><p><a href="hw/hw11/index.html">Homework 11</a> is released.</p>
+
+  <ul>
+    <li><a href="http://go.cs61a.org/scheme-contest">Vote</a> for your favorite <a href="proj/scheme_gallery.html">Scheme gallery artwork</a>.</li>
+    <li>Fill out the <a href="http://go.cs61a.org/final-survey">end-of-semester survey</a>.</li>
+  </ul></li>
+  <li>Rare Schémémon will be appearing on <a href="https://schememon.cs61a.org">schememon.cs61a.org</a> for RRR week.</li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-1' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Wednesday, April 29</h2>
+        <!-- <div><a href="#calendar_4_29">Jump to date</a></div> -->
+        <ul>
+  <li><p>Scheme Oral Exam Signups are out!</p>
+
+  <ul>
+    <li><a href="https://edstem.org/us/courses/93628/discussion/8003051">Sign up ASAP</a></li>
+  </ul></li>
+  <li><p>Your Final Exam is on Tuesday 5/12, 8am-11am</p>
+
+  <ul>
+    <li><a href="https://edstem.org/us/courses/93628/discussion/8009105">Read the Logistics</a></li>
+  </ul></li>
+  <li>No office hours next week, check out the review sessions</li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-2' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Wednesday, April 22</h2>
+        <!-- <div><a href="#calendar_4_22">Jump to date</a></div> -->
+        <ul>
+  <li>Scheme Checkpoint 2 is due tomorrow.</li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-3' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Wednesday, April 15</h2>
+        <!-- <div><a href="#calendar_4_15">Jump to date</a></div> -->
+        <ul>
+  <li>Scheme Checkpoint 1 is due tomorrow.</li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-4' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Monday, April 13</h2>
+        <!-- <div><a href="#calendar_4_13">Jump to date</a></div> -->
+        <ul>
+  <li>Prof. Garcia's OH today is cancelled.</li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-5' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Wednesday, April 8</h2>
+        <!-- <div><a href="#calendar_4_08">Jump to date</a></div> -->
+        <ul>
+  <li>Midterm regrades are due tomorrow at 11:59pm.</li>
+  <li><p>Exam support is still open!</p>
+
+  <ul>
+    <li><a href="https://edstem.org/us/courses/93628/discussion/7899765">Sign up</a> to talk to a staff member about prepping for the final.</li>
+  </ul></li>
+  <li>If you missed the Ants Oral Exam for a valid reason (e.g. sickness), please email cs61a@berkeley.edu immediately.</li>
+  <li>Here's a great Scheme cheat sheet to refer to: <a href="http://go.cs61a.org/ben-scheme">Scheme Cheatsheet</a></li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-6' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Friday, April 3</h2>
+        <!-- <div><a href="#calendar_4_03">Jump to date</a></div> -->
+        <ul>
+  <li><p>Midterm grades have been released on Gradescope!</p>
+
+  <ul>
+    <li>Please submit all regrade requests by 4/9 11:59pm</li>
+  </ul></li>
+  <li><p>We have switched the YouTube playlist links to Askademia</p>
+
+  <ul>
+    <li>Videos are the exact same, but now you can ask a LLM anything you're unsure about in the video.</li>
+  </ul></li>
+  <li><p>Reminder that Ants Oral Exams are still happening.</p>
+
+  <ul>
+    <li>Please refer to <a href="https://edstem.org/us/courses/93628/discussion/7826346">Ed</a> for oral exam logistics.</li>
+    <li>Sign up <a href="http://go.cs61a.org/oral-exam">here</a> with your partner (if applicable).</li>
+  </ul></li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-7' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Monday, March 30</h2>
+        <!-- <div><a href="#calendar_3_30">Jump to date</a></div> -->
+        <ul>
+  <li><p>The Midterm is this Wednesday, 4/1 from 8pm - 10pm.</p>
+
+  <ul>
+    <li>Seating confirmations will be sent via email soon.</li>
+  </ul></li>
+  <li><p>Please sign up for an Ants Oral Exam if you haven't done so.</p>
+
+  <ul>
+    <li>Please refer to <a href="https://edstem.org/us/courses/93628/discussion/7826346">Ed</a> for oral exam logistics.</li>
+    <li>Sign up <a href="http://go.cs61a.org/oral-exam">here</a> with your partner (if applicable).</li>
+  </ul></li>
+  <li>There is no lab, no discussions, and no tutoring this week. Lecture is cancelled on Wednesday.</li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-8' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Friday, March 20</h2>
+        <!-- <div><a href="#calendar_3_20">Jump to date</a></div> -->
+        <ul>
+  <li>Midterm time has been pushed back an hour to 8pm - 10pm on 4/1.</li>
+  <li><p>Ants Oral Exam sign ups have been released. Please refer to <a href="https://edstem.org/us/courses/93628/discussion/7826346">Ed</a> for oral exam logistics.</p>
+
+  <ul>
+    <li>Sign up <a href="http://go.cs61a.org/oral-exam">here</a> with your partner (if applicable).</li>
+  </ul></li>
+  <li><p>Midterm logistics have been announced. Please refer to <a href="https://edstem.org/us/courses/93628/discussion/7820534">Ed</a> for more information.</p>
+
+  <ul>
+    <li>If you have an alteration request, please fill <a href="https://docs.google.com/forms/d/e/1FAIpQLSenywjRsZvUmbggfUaDLul04zq93ZZwWiSZkfn8TvSUtFlyNA/viewform">this form</a> by 3/29.</li>
+  </ul></li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-9' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Wednesday, March 18</h2>
+        <!-- <div><a href="#calendar_3_18">Jump to date</a></div> -->
+        <ul>
+  <li><p>Ants Oral Exam sign ups have been released. Please refer to <a href="https://edstem.org/us/courses/93628/discussion/7826346">Ed</a> for oral exam logistics.</p>
+
+  <ul>
+    <li>Sign up <a href="http://go.cs61a.org/oral-exam">here</a> with your partner (if applicable).</li>
+  </ul></li>
+  <li><p>Midterm logistics have been announced. Please refer to <a href="https://edstem.org/us/courses/93628/discussion/7820534">Ed</a> for more information.</p>
+
+  <ul>
+    <li>If you have an alteration request, please fill <a href="https://docs.google.com/forms/d/e/1FAIpQLSenywjRsZvUmbggfUaDLul04zq93ZZwWiSZkfn8TvSUtFlyNA/viewform">this form</a> by 3/29.</li>
+  </ul></li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-10' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Monday, March 16</h2>
+        <!-- <div><a href="#calendar_3_16">Jump to date</a></div> -->
+        <ul>
+  <li><p>Midterm logistics have been announced. Please refer to <a href="https://edstem.org/us/courses/93628/discussion/7820534">Ed</a> for more information.</p>
+
+  <ul>
+    <li>If you have an alteration request, please fill <a href="https://docs.google.com/forms/d/e/1FAIpQLSenywjRsZvUmbggfUaDLul04zq93ZZwWiSZkfn8TvSUtFlyNA/viewform">this form</a> by 3/29.</li>
+  </ul></li>
+  <li><a href="lab/lab07/index.html">Lab 7</a> has been released.</li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-11' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Friday, March 13</h2>
+        <!-- <div><a href="#calendar_3_13">Jump to date</a></div> -->
+        <ul>
+  <li><a href="hw/hw06/index.html">Homework 6</a> has been released.</li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-12' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Monday, March 9</h2>
+        <!-- <div><a href="#calendar_3_09">Jump to date</a></div> -->
+        <ul>
+  <li><a href="lab/lab06/index.html">Lab 6</a> has been released.</li>
+  <li><p>We will be holding oral exams for the remaining projects Ants and Scheme.</p>
+
+  <ul>
+    <li>Find out more information via this <a href="https://edstem.org/us/courses/93628/discussion/7788217">Ed post</a>.</li>
+    <li>Sign up for a practice oral exam for Cats <a href="https://docs.google.com/spreadsheets/d/13MEJEXCj5mJ5l30qAAy_w8aPMpcKQNvjCsrr-uwyJHI/edit?gid=0#gid=0">here</a>.</li>
+  </ul></li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-13' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Wednesday, March 4</h2>
+        <!-- <div><a href="#calendar_3_04">Jump to date</a></div> -->
+        <ul>
+  <li>Cats early due deadline is today 3/4, and is due tomorrow 3/5.</li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-14' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Monday, March 2</h2>
+        <!-- <div><a href="#calendar_3_02">Jump to date</a></div> -->
+        <ul>
+  <li><a href="lab/lab05/index.html">Lab 5</a> has been released.</li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-15' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Friday, February 27</h2>
+        <!-- <div><a href="#calendar_2_27">Jump to date</a></div> -->
+        <ul>
+  <li><a href="hw/hw04/index.html">Homework 4</a> has been released!</li>
+  <li>Cats early due deadline is next Wednesday 3/4, and is due next Thursday 3/5.</li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-16' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Wednesday, February 25</h2>
+        <!-- <div><a href="#calendar_2_25">Jump to date</a></div> -->
+        <ul>
+  <li>Cats checkpoint is due tomorrow 2/26.</li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-17' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Friday, February 20</h2>
+        <!-- <div><a href="#calendar_2_20">Jump to date</a></div> -->
+        <ul>
+  <li><a href="proj/cats/index.html">Cats</a> has been relased!</li>
+  <li><p><a href="https://edstem.org/us/courses/93628/discussion/7703447">Student support meetings</a> start next week.</p>
+
+  <ul>
+    <li>Meet 1:1 with staff to talk about how to prepare for exams, navigate CS, Berkeley, and (almost) anything you want!</li>
+  </ul></li>
+  <li><p>We still have open slots for our <a href="https://sections.cs61a.org/tutoring">tutoring sections</a>!</p>
+
+  <ul>
+    <li>This is highly recommended to get a head start on prepping for the Midterm.</li>
+  </ul></li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-18' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Friday, February 13</h2>
+        <!-- <div><a href="#calendar_2_13">Jump to date</a></div> -->
+        <ul>
+  <li>Happy Friday the 13th! 👻</li>
+  <li><p>No classes next Monday (no lecture, lab, or tutoring).</p>
+
+  <ul>
+    <li>If you have a Monday lab, your attendance credit will automatically be given to you.</li>
+    <li>If you wish, feel free to pop into any <a href="https://sections.cs61a.org/lab">Tuesday lab</a>!</li>
+  </ul></li>
+  <li><p>Sign up for <a href="https://edstem.org/us/courses/93628/discussion/7666970">Exam Prep Tutoring</a>!</p>
+
+  <ul>
+    <li>These small group sections led by a tutor are a great way to prep for the next midterm.</li>
+  </ul></li>
+  <li><a href="hw/hw03/index.html">Homework 3</a> has been released!</li>
+  <li>Come by <a href="office-hours.html">office hours</a> next week if you would like to review your Quest.</li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-19' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Wednesday, February 11</h2>
+        <!-- <div><a href="#calendar_2_11">Jump to date</a></div> -->
+        <ul>
+  <li>Prof. Garcia's OH moved to Mon 2-3pm @ Soda 777.</li>
+  <li>An Ed announcement will be made when Quest scores are released on PrairieLearn tonight.</li>
+  <li>Today is the last day to switch <a href="https://sections.cs61a.org/">sections</a>.</li>
+  <li><p>Lecture-style discussion starts tomorrow. Find more information on <a href="https://edstem.org/us/courses/93628/discussion/7655125">Ed</a>.</p>
+
+  <ul>
+    <li>We will allow switching into this section until next Wednesday.</li>
+  </ul></li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-20' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Monday, February 9</h2>
+        <!-- <div><a href="#calendar_2_09">Jump to date</a></div> -->
+        <ul>
+  <li>The Quest is taking place from Monday through Wednesday!</li>
+  <li>There will be no lab or lecture Monday and Tuesday. Lecture and Discussion resume Wednesday (2/11).</li>
+  <li>There is no Monday Instructor OH or regular OH Monday-Wednesday</li>
+  <li><p>Reminder that your Quest is a quiz! Missing your Quest slot without a valid reason means that you will receive a 0.</p>
+
+  <ul>
+    <li>If you are unable to take the Quest for a valid reason, please email cs61a@berkeley.edu <strong>before</strong> your slot.</li>
+  </ul></li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-21' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Friday, February 6</h2>
+        <!-- <div><a href="#calendar_2_06">Jump to date</a></div> -->
+        <ul>
+  <li><p>This is your last reminder to sign up for the Quest.</p>
+
+  <ul>
+    <li>Refer to the logistics post on <a href="https://edstem.org/us/courses/93628/discussion/7605551">Ed</a></li>
+    <li>Being unable to make the remaining slots will not be a valid excuse to miss the Quest, so sign up now!</li>
+  </ul></li>
+  <li>The <a href="assets/pdfs/61a-mt1-study-guide.pdf">Midterm 1 Study Guide</a> may be useful to you in your preparation.</li>
+  <li>There will be no lab or lecture next week. Lecture and Discussion resume next Wednesday (2/11).</li>
+  <li><p>Reminder that your Quest is a quiz! Missing your Quest slot without a valid reason means that you will receive a 0.</p>
+
+  <ul>
+    <li>If you are unable to take the Quest for a valid reason, please email cs61a@berkeley.edu <strong>before</strong> your slot.</li>
+  </ul></li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-22' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Monday, February 2</h2>
+        <!-- <div><a href="#calendar_2_02">Jump to date</a></div> -->
+        <ul>
+  <li>Reservations for the actual Quest are now open. Please make a reservation on <a href="https://us.prairietest.com/">PrairieTest</a>.</li>
+  <li><p>Midterm date has been confirmed for 4/1 8-10pm.</p>
+
+  <ul>
+    <li>If you can't make this timeslot, we'll have an alternate on 4/2 8am-10am. More details will be released closer to then.</li>
+  </ul></li>
+  <li><a href="lab/lab02/index.html">Lab 2</a> has been released!</li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-23' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Friday, January 30</h2>
+        <!-- <div><a href="#calendar_1_30">Jump to date</a></div> -->
+        <ul>
+  <li>Please sign up for the Pre-Quest Orientation quiz ASAP! Details found on <a href="https://edstem.org/us/courses/93628/discussion/7574476">Ed</a>.</li>
+  <li><a href="hw/hw02/index.html">Homework 2</a> has been released!</li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-24' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Wednesday, January 28</h2>
+        <!-- <div><a href="#calendar_1_28">Jump to date</a></div> -->
+        <ul>
+  <li>Please sign up for the Pre-Quest Orientation quiz ASAP! Details found on <a href="https://edstem.org/us/courses/93628/discussion/7574476">Ed</a>.</li>
+  <li><a href="lab/lab00.html">Lab 0</a> and <a href="lab/lab01/index.html">Lab 1</a> are due today. <a href="hw/hw01/index.html">Homework 1</a> is due tomorrow.</li>
+  <li><p>If you need an extension on any assignment, you have to <a href="https://go.cs61a.org/extensions">request</a> one before the deadline.</p>
+
+  <ul>
+    <li>As a reminder, all 24h extensions will be approved without question (72h for DSP students with extension accomodations).</li>
+  </ul></li>
+  <li><p><a href="proj/hog/index.html">Hog</a> has been released! First checkpoint is due 2/3.</p>
+
+  <ul>
+    <li>Come to <a href="office-hours.html">office hours</a> and work with other students!</li>
+  </ul></li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-25' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Monday, January 26</h2>
+        <!-- <div><a href="#calendar_1_26">Jump to date</a></div> -->
+        <ul>
+  <li>Labs start today! Please view your assigned lab at <a href="https://sections.cs61a.org">sections.cs61a.org</a>.</li>
+  <li><a href="hw/hw01/index.html">Homework 1</a> has been released!</li>
+  <li><a href="office-hours.html">Office hours</a> start this week. Come and get help on your assignments or just work with other students!</li>
+  <li>All students (including waitlisted and concurrent enrollment) may now sign up for sections and attend lecture!</li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-26' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Wednesday, January 21</h2>
+        <!-- <div><a href="#calendar_1_21">Jump to date</a></div> -->
+        <ul>
+  <li>Discussions start today! Look for your lab and discussion assignments at sections.cs61a.org.</li>
+  <li><a href="lab/lab00.html">Lab 0</a> has been released! Feel free to get started on it even before lab.</li>
+</ul>
+        
+    </div>
+    
+
+    <div class="announcement" id='announcement-27' >
+        <button class="btn prev" style="color: black"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> older</button>
+        <button class="btn next" style="color: black"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> newer</button>
+        <h2 class="frontpage-header">Announcements: Tuesday, January 20</h2>
+        <!-- <div><a href="#calendar_1_20">Jump to date</a></div> -->
+        <p>Welcome to CS 61A!</p>
+        
+    </div>
+    
+</section>
+
+<h2 class="frontpage-header">Current Assignments</h2>
+<section class="assignments" id="assignments">
+</section>
+
+<h2 class="frontpage-header">Calendar</h2>
+<section id="calendar" class="table-responsive">
+  <table id="calendar" class="table" cellpadding="5px">
+<tr>
+<th>Week</th>
+<th>Date</th>
+<th>Lecture</th>
+<th>Textbook</th>
+<th>Lab & Discussion Links</th>
+<th>Homework & Project</th>
+</tr>
+<tr class="odd">
+<td rowspan="2" class="weeknum odd">1</td>
+<td><a id="calendar_1_21" class="calendar-date-anchor"></a>Wed<br>1/21</td>
+<td>
+<div class="assignment-text">
+  1. Welcome
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-1-welcome" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/01-Welcome.pdf" class="label label-outline">Slides (pdf)</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  
+</ul>
+</td>
+<td>
+<span class="">
+    <a href="disc/disc00/index.html" class="assignment-text">Disc 00: Getting Started</a>
+    
+<ul class="list-inline">
+  <li><a href="disc/sol-disc00/index.html" class="label label-outline">Solutions</a></li>
+</ul>
+
+</span>
+<br/>
+
+<span class="">
+    <a href="lab/lab00.html" class="assignment-text">Lab 00: Getting Started</a>
+<div class="badge due">
+  Due
+  Wed 1/28
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="lab/sol-lab00/index.html" class="label label-outline">Solutions</a></li>
+</ul>
+
+</span>
+</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><a id="calendar_1_23" class="calendar-date-anchor"></a>Fri<br>1/23</td>
+<td>
+<div class="assignment-text">
+  2. Functions
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/watch?v=gNv81_4X0uU&list=PL6BsET-8jgYULSxiV2garZ0FxbnXR08MP&index=1" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-2-functions" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/02-Functions.pdf" class="label label-outline">Slides (pdf)</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  <li><a href="https://www.composingprograms.com/pages/11-getting-started.html" class="label label-outline" target="_blank">Ch. 1.1</a></li>
+<li><a href="https://www.composingprograms.com/pages/12-elements-of-programming.html" class="label label-outline" target="_blank">Ch. 1.2</a></li>
+<li><a href="https://www.composingprograms.com/pages/13-defining-new-functions.html" class="label label-outline" target="_blank">Ch. 1.3</a></li>
+</ul>
+</td>
+<td></td>
+<td>
+<span class="">
+    <a href="hw/hw01/index.html" class="assignment-text">HW 01: Functions, Control</a>
+<div class="badge due">
+  Due
+  Thu 1/29
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="hw/sol-hw01/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZdE6Ugbn03lUj4utfzETMHA" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+</tr>
+<tr class="even">
+<td rowspan="3" class="weeknum even">2</td>
+<td><a id="calendar_1_26" class="calendar-date-anchor"></a>Mon<br>1/26</td>
+<td>
+<div class="assignment-text">
+  3. Control
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/watch?v=IPec2A7j2bY&list=PL6BsET-8jgYVCz97Y75GRXSWbb4sTpDIR" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-3-control" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/03-Control.pdf" class="label label-outline">Slides (pdf)</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  <li><a href="https://www.composingprograms.com/pages/14-designing-functions.html" class="label label-outline" target="_blank">Ch. 1.4</a></li>
+<li><a href="https://www.composingprograms.com/pages/15-control.html" class="label label-outline" target="_blank">Ch. 1.5</a></li>
+</ul>
+</td>
+<td>
+<span class="">
+    <a href="lab/lab01/index.html" class="assignment-text">Lab 01: Functions</a>
+<div class="badge due">
+  Due
+  Wed 1/28
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="lab/sol-lab01/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZcBckceuAOkC5_WiTbt35da" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><a id="calendar_1_28" class="calendar-date-anchor"></a>Wed<br>1/28</td>
+<td>
+<div class="assignment-text">
+  4. Higher-Order Functions
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/watch?v=pveIuZT0GJE&list=PL6BsET-8jgYXvcnnEX7x2_USaYug9xZFv" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-4-higher-order-functions" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/04-Higher-Order_Functions.pdf" class="label label-outline">Slides (pdf)</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  <li><a href="https://www.composingprograms.com/pages/16-higher-order-functions.html" class="label label-outline" target="_blank">Ch. 1.6</a></li>
+</ul>
+</td>
+<td>
+<span class="">
+    <a href="disc/disc01/index.html" class="assignment-text">Disc 01: Control, Environment Diagrams</a>
+    
+<ul class="list-inline">
+  <li><a href="disc/sol-disc01/index.html" class="label label-outline">Solutions</a></li>
+</ul>
+
+</span>
+</td>
+<td>
+<span class="">
+    <a href="proj/hog/index.html">Hog</a>
+<div class="badge due">
+  Checkpt
+  
+  Tue 2/3
+</div>
+
+<div class="badge due">
+  Early Due
+  Wed 2/11
+</div>
+
+<div class="badge due">
+  Due
+  Thu 2/12
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZfpHDDcEnevQqlX4wTxuMAD" class="label label-outline" target="_blank">Getting Started Videos</a></li>
+</ul>
+
+</span>
+</td>
+</tr>
+<tr class="even">
+<td><a id="calendar_1_30" class="calendar-date-anchor"></a>Fri<br>1/30</td>
+<td>
+<div class="assignment-text">
+  5. Environments
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/watch?v=1P2UgdAWwYg&list=PL6BsET-8jgYXTuSlJNYQS740YMCRHT79g" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-5-environments" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/05-Environments.pdf" class="label label-outline">Slides (pdf)</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  <li><a href="https://www.composingprograms.com/pages/16-higher-order-functions.html" class="label label-outline" target="_blank">Ch. 1.6</a></li>
+</ul>
+</td>
+<td></td>
+<td>
+<span class="">
+    <a href="hw/hw02/index.html" class="assignment-text">HW 02: Higher-Order Functions</a>
+<div class="badge due">
+  Due
+  Thu 2/5
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="hw/sol-hw02/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZfl1k5pgm22FtP2CvQ8YiMz" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+</tr>
+<tr class="odd">
+<td rowspan="3" class="weeknum odd">3</td>
+<td><a id="calendar_2_02" class="calendar-date-anchor"></a>Mon<br>2/2</td>
+<td>
+<div class="assignment-text">
+  6. Functional Abstraction
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/watch?v=PKlgS5eofNY&list=PL6BsET-8jgYVSwKGjsM9y1j8RQsRwtDy3&ab_channel=JohnDeNero" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-6-functional-abstraction" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/06-Functional_Abstraction.pdf" class="label label-outline">Slides (pdf)</a></li>
+<li><a href="assets/slides/06.py" class="label label-outline">06.py</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  
+</ul>
+</td>
+<td>
+<span class="">
+    <a href="lab/lab02/index.html" class="assignment-text">Lab 02: Higher-Order Functions, Lambda Expressions</a>
+<div class="badge due">
+  Due
+  Wed 2/4
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="lab/sol-lab02/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZcRws2T2dUrlFOoEvuUF-93" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><a id="calendar_2_04" class="calendar-date-anchor"></a>Wed<br>2/4</td>
+<td>
+<div class="assignment-text">
+  7. Function Examples
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/watch?v=guc-Q1x2vAY&list=PL6BsET-8jgYX6yuG9s7zO8GA1xHwHARFX&ab_channel=JohnDeNero" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-7-function-examples" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/07-Function_Examples.pdf" class="label label-outline">Slides (pdf)</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  
+</ul>
+</td>
+<td>
+<span class="">
+    <a href="disc/disc02/index.html" class="assignment-text">Disc 02: Environment Diagrams, Higher-Order Functions</a>
+    
+<ul class="list-inline">
+  <li><a href="disc/sol-disc02/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZfn-wzhK2XLqF_tZYQCWUTq" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><a id="calendar_2_06" class="calendar-date-anchor"></a>Fri<br>2/6</td>
+<td>
+<div class="assignment-text">
+  8. Quest Review
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-8-quest-review" class="label label-outline" target="_blank">Recording</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  
+</ul>
+</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td rowspan="3" class="weeknum even">4</td>
+<td><a id="calendar_2_09" class="calendar-date-anchor"></a>Mon<br>2/9</td>
+<td>No Lecture: Quest (Mon - Wed)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><a id="calendar_2_11" class="calendar-date-anchor"></a>Wed<br>2/11</td>
+<td>
+<div class="assignment-text">
+  9. Recursion
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/watch?v=B2_8t2jyvX0&list=PL6BsET-8jgYUUBHIgUAqjrMUoPCGQcYdl" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-9-recursion" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/09-Recursion.pdf" class="label label-outline">Slides (pdf)</a></li>
+<li><a href="assets/slides/09.py" class="label label-outline">09.py</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  <li><a href="https://www.composingprograms.com/pages/17-recursive-functions.html" class="label label-outline" target="_blank">Ch. 1.7</a></li>
+</ul>
+</td>
+<td>
+<span class="">
+    <a href="disc/disc03/index.html" class="assignment-text">Disc 03: Recursion</a>
+    
+<ul class="list-inline">
+  <li><a href="disc/sol-disc03/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZfzZl-jztFnfHyfzjEgXYg1" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><a id="calendar_2_13" class="calendar-date-anchor"></a>Fri<br>2/13</td>
+<td>
+<div class="assignment-text">
+  10. Tree Recursion
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/watch?v=VYYkJ1OLXBw&list=PL6BsET-8jgYUUWPap4etQjZVWlWUeFxn0&ab_channel=JohnDeNero" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-10-tree-recursion" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/10-Tree_Recursion.pdf" class="label label-outline">Slides (pdf)</a></li>
+<li><a href="assets/slides/10-vee.py" class="label label-outline">10-vee.py</a></li>
+<li><a href="assets/slides/10.py" class="label label-outline">10.py</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  <li><a href="https://www.composingprograms.com/pages/17-recursive-functions.html" class="label label-outline" target="_blank">Ch. 1.7</a></li>
+</ul>
+</td>
+<td></td>
+<td>
+<span class="">
+    <a href="hw/hw03/index.html" class="assignment-text">HW 03: Recursion, Tree Recursion</a>
+<div class="badge due">
+  Due
+  Thu 2/19
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="hw/sol-hw03/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZdUJfnsYhx4Klg1Www86gyx" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+</tr>
+<tr class="odd">
+<td rowspan="3" class="weeknum odd">5</td>
+<td><a id="calendar_2_16" class="calendar-date-anchor"></a>Mon<br>2/16</td>
+<td>No Lecture: Presidents' Day</td>
+<td></td>
+<td>
+<span class="">
+    <a href="lab/lab03/index.html" class="assignment-text">Lab 03: Recursion, Python Lists</a>
+<div class="badge due">
+  Due
+  Wed 2/18
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="lab/sol-lab03/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZceIYotKvYoWDrShCza0Uxu" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><a id="calendar_2_18" class="calendar-date-anchor"></a>Wed<br>2/18</td>
+<td>
+<div class="assignment-text">
+  11. Sequences
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/watch?v=-Q45UcQ2XJk&list=PL6BsET-8jgYVfI7chdrXciKy8CP10tOcl&ab_channel=JohnDeNero" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-11-sequences" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="articles/type-hints.html" class="label label-outline" target="_blank">Type Hints Reading</a></li>
+<li><a href="assets/slides/11-Sequences.pdf" class="label label-outline">Slides (pdf)</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  <li><a href="https://www.composingprograms.com/pages/21-introduction.html" class="label label-outline" target="_blank">Ch. 2.1</a></li>
+<li><a href="https://www.composingprograms.com/pages/23-sequences.html" class="label label-outline" target="_blank">Ch. 2.3</a></li>
+</ul>
+</td>
+<td>
+<span class="">
+    <a href="disc/disc04/index.html" class="assignment-text">Disc 04: Tree Recursion</a>
+    
+<ul class="list-inline">
+  <li><a href="disc/sol-disc04/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZe0s_JOJ5895R1p98EYpazE" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><a id="calendar_2_20" class="calendar-date-anchor"></a>Fri<br>2/20</td>
+<td>
+<div class="assignment-text">
+  12. Containers
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/watch?v=aSqOiUZg7kQ&list=PL6BsET-8jgYW50w7isVJS3YumstvFX1LY&ab_channel=JohnDeNero" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-12-containers" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/12-Containers.pdf" class="label label-outline">Slides (pdf)</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  <li><a href="https://www.composingprograms.com/pages/23-sequences.html" class="label label-outline" target="_blank">Ch. 2.3</a></li>
+</ul>
+</td>
+<td></td>
+<td>
+<span class="">
+    <a href="proj/cats/index.html">Cats</a>
+<div class="badge due">
+  Checkpt
+  
+  Thu 2/26
+</div>
+
+<div class="badge due">
+  Early Due
+  Wed 3/4
+</div>
+
+<div class="badge due">
+  Due
+  Thu 3/5
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="https://youtube.com/playlist?list=PLx38hZJ5RLZe87guXM0aEm5VYwY6Mzbdy&si=Nf0ZE0gnGEQ3cljT" class="label label-outline" target="_blank">Getting Started Videos</a></li>
+</ul>
+
+</span>
+</td>
+</tr>
+<tr class="even">
+<td rowspan="3" class="weeknum even">6</td>
+<td><a id="calendar_2_23" class="calendar-date-anchor"></a>Mon<br>2/23</td>
+<td>
+<div class="assignment-text">
+  13. Data Abstraction
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/watch?v=nzP3nJ2np8w&list=PL6BsET-8jgYWCdzh9cSNcwAhXe9NOWwjH&ab_channel=JohnDeNero" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-13-data-abstraction" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/13.py" class="label label-outline">13.py</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  <li><a href="https://www.composingprograms.com/pages/22-data-abstraction.html" class="label label-outline" target="_blank">Ch. 2.2</a></li>
+</ul>
+</td>
+<td>
+<span class="">
+    <a href="lab/lab04/index.html" class="assignment-text">Lab 04: Tree Recursion, Data Abstraction</a>
+<div class="badge due">
+  Due
+  Wed 2/25
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="lab/sol-lab04/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZfk3-bAAqPGEU7DLc_6pX-R" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><a id="calendar_2_25" class="calendar-date-anchor"></a>Wed<br>2/25</td>
+<td>
+<div class="assignment-text">
+  14. Trees
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/watch?v=qFCJANh5ht8&list=PL6BsET-8jgYX7kDENvuBNGDg1lwHL2PKC&ab_channel=JohnDeNero" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-14-trees" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/14-Trees.pdf" class="label label-outline">Slides (pdf)</a></li>
+<li><a href="assets/slides/14.py" class="label label-outline">14.py</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  <li><a href="https://www.composingprograms.com/pages/23-sequences.html" class="label label-outline" target="_blank">Ch. 2.3</a></li>
+</ul>
+</td>
+<td>
+<span class="">
+    <a href="disc/disc05/index.html" class="assignment-text">Disc 05: Trees</a>
+    
+<ul class="list-inline">
+  <li><a href="disc/sol-disc05/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZfU4miG-W4iR070LSvQQpgv" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><a id="calendar_2_27" class="calendar-date-anchor"></a>Fri<br>2/27</td>
+<td>
+<div class="assignment-text">
+  15. Mutability
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/watch?v=Q-CewobDFZM&list=PL6BsET-8jgYWfS7Jqp64nI7uQLXLPWObR&ab_channel=JohnDeNero" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-15-mutability" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/15-Mutability.pdf" class="label label-outline">Slides (pdf)</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  <li><a href="https://www.composingprograms.com/pages/24-mutable-data.html" class="label label-outline" target="_blank">Ch. 2.4</a></li>
+</ul>
+</td>
+<td></td>
+<td>
+<span class="">
+    <a href="hw/hw04/index.html" class="assignment-text">HW 04: Sequences, Data Abstraction, Trees</a>
+<div class="badge due">
+  Due
+  Thu 3/5
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="hw/sol-hw04/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://youtube.com/playlist?list=PLx38hZJ5RLZeC1sU6hCCknegdpJeEneBn&si=QAQ1OtO316W64l8j" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+</tr>
+<tr class="odd">
+<td rowspan="3" class="weeknum odd">7</td>
+<td><a id="calendar_3_02" class="calendar-date-anchor"></a>Mon<br>3/2</td>
+<td>
+<div class="assignment-text">
+  16. Iterators
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/watch?v=On-kFyFp8HY&list=PL6BsET-8jgYW7stiut93PHxGP6_QgBzVQ&ab_channel=JohnDeNero" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-16-iterators" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/16-Iterators.pdf" class="label label-outline">Slides (pdf)</a></li>
+<li><a href="assets/slides/16.py" class="label label-outline">16.py</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  <li><a href="https://www.composingprograms.com/pages/42-implicit-sequences.html" class="label label-outline" target="_blank">Ch. 4.2</a></li>
+</ul>
+</td>
+<td>
+<span class="">
+    <a href="lab/lab05/index.html" class="assignment-text">Lab 05: Iterators, Mutability</a>
+<div class="badge due">
+  Due
+  Wed 3/4
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="lab/sol-lab05/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZcgRGz3rUv835rg3iwf3MFz" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><a id="calendar_3_04" class="calendar-date-anchor"></a>Wed<br>3/4</td>
+<td>
+<div class="assignment-text">
+  17. Generators
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/watch?v=DyXPnQuaa0w&list=PL6BsET-8jgYXnY-7vDJXIv2N5xW98rJTZ&ab_channel=JohnDeNero" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-17-generators" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/17-Generators.pdf" class="label label-outline">Slides (pdf)</a></li>
+<li><a href="assets/slides/17.py" class="label label-outline">17.py</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  <li><a href="https://www.composingprograms.com/pages/42-implicit-sequences.html" class="label label-outline" target="_blank">Ch. 4.2</a></li>
+</ul>
+</td>
+<td>
+<span class="">
+    <a href="disc/disc06/index.html" class="assignment-text">Disc 06: Iterators, Generators</a>
+    
+<ul class="list-inline">
+  <li><a href="disc/sol-disc06/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZeQ03JkjI-SoZ2aHtlLavJ1" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><a id="calendar_3_06" class="calendar-date-anchor"></a>Fri<br>3/6</td>
+<td>
+<div class="assignment-text">
+  18. Objects
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/watch?v=XdRZkeCRXs4&list=PL6BsET-8jgYVz2dLlWRsktOrtqO8wWRsy&ab_channel=JohnDeNero" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-18-objects" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/18-Objects.pdf" class="label label-outline">Slides (pdf)</a></li>
+<li><a href="assets/slides/18.py" class="label label-outline">18.py</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  <li><a href="https://www.composingprograms.com/pages/25-object-oriented-programming.html" class="label label-outline" target="_blank">Ch. 2.5</a></li>
+</ul>
+</td>
+<td></td>
+<td>
+<span class="">
+    <a href="hw/hw05/index.html" class="assignment-text">HW 05: Iterators, Generators</a>
+<div class="badge due">
+  Due
+  Thu 3/12
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="hw/sol-hw05/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://youtube.com/playlist?list=PLx38hZJ5RLZdzYiERSJFdUg163hJ2WsGm&si=xe6x0XR4BN23LX1T" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+<br/>
+
+<span class="">
+    <a href="proj/ants/index.html">Ants</a>
+<div class="badge due">
+  Checkpt
+  1
+  Thu 3/12
+</div>
+
+<div class="badge due">
+  Checkpt
+  2
+  Tue 3/17
+</div>
+
+<div class="badge due">
+  Early Due
+  Thu 3/19
+</div>
+
+<div class="badge due">
+  Due
+  Fri 3/20
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZdH1AQFUuP-ixu7nAEK4OLP" class="label label-outline" target="_blank">Getting Started Videos</a></li>
+</ul>
+
+</span>
+</td>
+</tr>
+<tr class="even">
+<td rowspan="3" class="weeknum even">8</td>
+<td><a id="calendar_3_09" class="calendar-date-anchor"></a>Mon<br>3/9</td>
+<td>
+<div class="assignment-text">
+  19. Attributes
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/watch?v=mimP7cNrSHA&list=PL6BsET-8jgYVhCKr4EHUE9mw9kcH7Kg7Y&ab_channel=JohnDeNero" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-19-attributes" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/19-Attributes.pdf" class="label label-outline">Slides (pdf)</a></li>
+<li><a href="assets/slides/19.py" class="label label-outline">19.py</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  <li><a href="https://www.composingprograms.com/pages/25-object-oriented-programming.html" class="label label-outline" target="_blank">Ch. 2.5</a></li>
+</ul>
+</td>
+<td>
+<span class="">
+    <a href="lab/lab06/index.html" class="assignment-text">Lab 06: Object-Oriented Programming</a>
+<div class="badge due">
+  Due
+  Wed 3/11
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="lab/sol-lab06/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZfrzyQvcEjb9j4RWMJRVbUB" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><a id="calendar_3_11" class="calendar-date-anchor"></a>Wed<br>3/11</td>
+<td>
+<div class="assignment-text">
+  20. Inheritance
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/watch?v=Bqpe1iyq5vE&list=PL6BsET-8jgYXUT9nA2gvweTlheGbvp6qv&ab_channel=JohnDeNero" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-20-inheritance" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/20-Inheritance.pdf" class="label label-outline">Slides (pdf)</a></li>
+<li><a href="assets/slides/20.py" class="label label-outline">20.py</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  <li><a href="https://www.composingprograms.com/pages/25-object-oriented-programming.html" class="label label-outline" target="_blank">Ch. 2.5</a></li>
+</ul>
+</td>
+<td>
+<span class="">
+    <a href="disc/disc07/index.html" class="assignment-text">Disc 07: OOP, Inheritance</a>
+    
+<ul class="list-inline">
+  <li><a href="disc/sol-disc07/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZfK1NHzlCsQdNVnoQ0S6pwa" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><a id="calendar_3_13" class="calendar-date-anchor"></a>Fri<br>3/13</td>
+<td>
+<div class="assignment-text">
+  21. Representation
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/watch?v=DUSSKCjzAgA&list=PL6BsET-8jgYW8tpgR0-wtQEA2VyOyNXFB&ab_channel=JohnDeNero" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-21-representation" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/21-Representation.pdf" class="label label-outline">Slides (pdf)</a></li>
+<li><a href="assets/slides/21.py" class="label label-outline">21.py</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  <li><a href="https://www.composingprograms.com/pages/27-object-abstraction.html" class="label label-outline" target="_blank">Ch. 2.7</a></li>
+</ul>
+</td>
+<td></td>
+<td>
+<span class="">
+    <a href="hw/hw06/index.html" class="assignment-text">HW 06: Object-Oriented Programming, Linked Lists, Mutable Trees</a>
+<div class="badge due">
+  Due
+  Thu 3/19
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="hw/sol-hw06/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZdSpttLVwkb68GhVWSHAQrn" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+</tr>
+<tr class="odd">
+<td rowspan="3" class="weeknum odd">9</td>
+<td><a id="calendar_3_16" class="calendar-date-anchor"></a>Mon<br>3/16</td>
+<td>
+<div class="assignment-text">
+  22. Composition
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/watch?v=yC4WPw_6ehY&list=PL6BsET-8jgYWnaras4ggDpnXGGD9G1jQS&ab_channel=JohnDeNero" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-22-composition" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/22-Composition.pdf" class="label label-outline">Slides (pdf)</a></li>
+<li><a href="assets/slides/22.py" class="label label-outline">22.py</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  
+</ul>
+</td>
+<td>
+<span class="">
+    <a href="lab/lab07/index.html" class="assignment-text">Lab 07: Linked Lists, Inheritance</a>
+<div class="badge due">
+  Due
+  Wed 3/18
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="lab/sol-lab07/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://youtube.com/playlist?list=PLx38hZJ5RLZfybCPe6Rv0H8-52rd8yJHc&si=KfRLd02jPa2yL1xA " class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><a id="calendar_3_18" class="calendar-date-anchor"></a>Wed<br>3/18</td>
+<td>
+<div class="assignment-text">
+  23. Decomposition
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/watch?v=i7GFWtHCuzo&list=PL6BsET-8jgYXp_JnAEzO5gz2c5HY6bg3j&ab_channel=JohnDeNero" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-24-decomposition" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/23-Decomposition.pdf" class="label label-outline">Slides (pdf)</a></li>
+<li><a href="assets/slides/23.py" class="label label-outline">23.py</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  
+</ul>
+</td>
+<td>
+<span class="">
+    <a href="disc/disc08/index.html" class="assignment-text">Disc 08: Linked Lists</a>
+    
+<ul class="list-inline">
+  <li><a href="disc/sol-disc08/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZf_jx8K6BPGaNYjLMImDs8J" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><a id="calendar_3_20" class="calendar-date-anchor"></a>Fri<br>3/20</td>
+<td>
+<div class="assignment-text">
+  24. Efficiency
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/watch?v=DWhsOSHjY98&list=PL6BsET-8jgYU9eOK2Ft8hQuzIWb4h-Tim&ab_channel=JohnDeNero" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-23-efficiency" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/24-Efficiency.pdf" class="label label-outline">Slides (pdf)</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  <li><a href="https://www.composingprograms.com/pages/28-efficiency.html" class="label label-outline" target="_blank">Ch. 2.8</a></li>
+</ul>
+</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td rowspan="3" class="weeknum even">10</td>
+<td><a id="calendar_3_23" class="calendar-date-anchor"></a>Mon<br>3/23</td>
+<td>No Lecture: Spring Break</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><a id="calendar_3_25" class="calendar-date-anchor"></a>Wed<br>3/25</td>
+<td>No Lecture: Spring Break</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><a id="calendar_3_27" class="calendar-date-anchor"></a>Fri<br>3/27</td>
+<td>No Lecture: Spring Break</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td rowspan="3" class="weeknum odd">11</td>
+<td><a id="calendar_3_30" class="calendar-date-anchor"></a>Mon<br>3/30</td>
+<td>
+<div class="assignment-text">
+  25. Midterm Review
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/watch?v=tpfpNR3u4zk&list=PL6BsET-8jgYX2qPZDaMm1DsBZe1Zu045G&ab_channel=JohnDeNero" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-25-midterm-review" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/25-Midterm_Review.pdf" class="label label-outline">Slides (pdf)</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  
+</ul>
+</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><a id="calendar_4_01" class="calendar-date-anchor"></a>Wed<br>4/1</td>
+<td>Midterm (8pm-10pm)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><a id="calendar_4_03" class="calendar-date-anchor"></a>Fri<br>4/3</td>
+<td>
+<div class="assignment-text">
+  26. Scheme
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.askademia.org/cs61a/sp26/playlists/scheme" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-26-scheme" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/26-Scheme.pdf" class="label label-outline">Slides (pdf)</a></li>
+<li><a href="assets/slides/26.scm" class="label label-outline">26.scm</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  <li><a href="https://www.composingprograms.com/pages/31-introduction.html" class="label label-outline" target="_blank">Ch. 3.1</a></li>
+<li><a href="https://www.composingprograms.com/pages/32-functional-programming.html" class="label label-outline" target="_blank">Ch. 3.2</a></li>
+</ul>
+</td>
+<td></td>
+<td>
+<span class="">
+    <a href="hw/hw07/index.html" class="assignment-text">HW 07: Scheme</a>
+<div class="badge due">
+  Due
+  Thu 4/9
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="hw/sol-hw07/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZfGJBLatyiN0GbeLmFgwW-U" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+</tr>
+<tr class="even">
+<td rowspan="3" class="weeknum even">12</td>
+<td><a id="calendar_4_06" class="calendar-date-anchor"></a>Mon<br>4/6</td>
+<td>
+<div class="assignment-text">
+  27. Scheme Lists
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.askademia.org/cs61a/sp26/playlists/scheme-lists" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-27-scheme-lists" class="label label-outline" target="_blank">Recording</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  <li><a href="https://www.composingprograms.com/pages/32-functional-programming.html" class="label label-outline" target="_blank">Ch. 3.2</a></li>
+</ul>
+</td>
+<td>
+<span class="">
+    <a href="lab/lab08/index.html" class="assignment-text">Lab 08: Scheme</a>
+<div class="badge due">
+  Due
+  Wed 4/8
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="lab/sol-lab08/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZcUC3Tzbd-ghYKliOGxMS34" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><a id="calendar_4_08" class="calendar-date-anchor"></a>Wed<br>4/8</td>
+<td>
+<div class="assignment-text">
+  28. Calculator
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.askademia.org/cs61a/sp26/playlists/calculator" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-28-calculator" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/28-Calculator.pdf" class="label label-outline">Slides (pdf)</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  <li><a href="https://www.composingprograms.com/pages/33-exceptions.html" class="label label-outline" target="_blank">Ch. 3.3</a></li>
+<li><a href="https://www.composingprograms.com/pages/34-interpreters-for-languages-with-combination.html" class="label label-outline" target="_blank">Ch. 3.4</a></li>
+</ul>
+</td>
+<td>
+<span class="">
+    <a href="disc/disc09/index.html" class="assignment-text">Disc 09: Scheme, Scheme Lists</a>
+    
+<ul class="list-inline">
+  <li><a href="disc/sol-disc09/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZfky7R03Ih0VK9BJKfN5kKJ" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><a id="calendar_4_10" class="calendar-date-anchor"></a>Fri<br>4/10</td>
+<td>
+<div class="assignment-text">
+  29. Interpreters
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.askademia.org/cs61a/sp26/playlists/interpreters" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-29-interpreters" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/29-Interpreters.pdf" class="label label-outline">Slides (pdf)</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  <li><a href="https://www.composingprograms.com/pages/35-interpreters-for-languages-with-abstraction.html" class="label label-outline" target="_blank">Ch. 3.5</a></li>
+</ul>
+</td>
+<td></td>
+<td>
+<span class="">
+    <a href="hw/hw08/index.html" class="assignment-text">HW 08: Scheme Lists</a>
+<div class="badge due">
+  Due
+  Thu 4/16
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="hw/sol-hw08/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZe72Ag-9o-uXdQ0BlL_mb9-" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+<br/>
+
+<span class="">
+    <a href="proj/scheme.html">Scheme</a>
+<div class="badge due">
+  Checkpt
+  1
+  Thu 4/16
+</div>
+
+<div class="badge due">
+  Checkpt
+  2
+  Thu 4/23
+</div>
+
+<div class="badge due">
+  Early Due
+  Tue 4/28
+</div>
+
+<div class="badge due">
+  Due
+  Wed 4/29
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZf4EKSLoxQapBDqzN7PCdjP" class="label label-outline" target="_blank">Getting Started Videos</a></li>
+</ul>
+
+</span>
+<br/>
+
+<span class="">
+    <a href="proj/scheme_contest/index.html">(Optional) Scheme Contest</a>
+<div class="badge due">
+  Due
+  Wed 4/29
+</div>
+
+    
+</span>
+<br/>
+
+<span class="">
+    <a href="proj/scheme_gallery.html">Scheme Gallery</a>
+<div class="badge due">
+  Due
+  Wed 4/29
+</div>
+
+    
+</span>
+</td>
+</tr>
+<tr class="odd">
+<td rowspan="3" class="weeknum odd">13</td>
+<td><a id="calendar_4_13" class="calendar-date-anchor"></a>Mon<br>4/13</td>
+<td>
+<div class="assignment-text">
+  30. Programs as Data
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.askademia.org/cs61a/sp26/playlists/programs-as-data" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-30-programs-as-data" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/30-Programs_as_Data.pdf" class="label label-outline">Slides (pdf)</a></li>
+<li><a href="https://docs.google.com/presentation/d/1cdv-3q6tpLaARusWg-2OiMGu6v9ryr7P/edit?usp=sharing&ouid=105762295436394226946&rtpof=true&sd=true" class="label label-outline" target="_blank">Slides</a></li>
+<li><a href="assets/slides/30.scm" class="label label-outline">30.scm</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  
+</ul>
+</td>
+<td>
+<span class="">
+    <a href="lab/lab09.html" class="assignment-text">Lab 09: Interpreters</a>
+<div class="badge due">
+  Due
+  Wed 4/15
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="lab/sol-lab09/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZc-_Ej4trSFOjyGrfXPzwCD" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><a id="calendar_4_15" class="calendar-date-anchor"></a>Wed<br>4/15</td>
+<td>
+<div class="assignment-text">
+  31. Macros
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.askademia.org/cs61a/sp26/playlists/macros" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-31-macros" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/31-Macros.pdf" class="label label-outline">Slides (pdf)</a></li>
+<li><a href="assets/slides/31.scm" class="label label-outline">31.scm</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  
+</ul>
+</td>
+<td>
+<span class="">
+    <a href="disc/disc10/index.html" class="assignment-text">Disc 10: Interpreters</a>
+    
+<ul class="list-inline">
+  <li><a href="disc/sol-disc10/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZfPdymASvbCBfeC9VG1gCjd" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><a id="calendar_4_17" class="calendar-date-anchor"></a>Fri<br>4/17</td>
+<td>
+<div class="assignment-text">
+  32. SQL
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.askademia.org/cs61a/sp26/playlists/sql" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-32-sql" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/32-SQL.pdf" class="label label-outline">Slides (pdf)</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  
+</ul>
+</td>
+<td></td>
+<td>
+<span class="">
+    <a href="hw/hw09/index.html" class="assignment-text">HW 09: Programs as Data, Macros</a>
+<div class="badge due">
+  Due
+  Thu 4/23
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="hw/sol-hw09/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZdOwetcqfe6pAGox4GjcdAt" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+</tr>
+<tr class="even">
+<td rowspan="3" class="weeknum even">14</td>
+<td><a id="calendar_4_20" class="calendar-date-anchor"></a>Mon<br>4/20</td>
+<td>
+<div class="assignment-text">
+  33. Tables
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.askademia.org/cs61a/sp26/playlists/tables" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-33-tables" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/33-Tables.pdf" class="label label-outline">Slides (pdf)</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  
+</ul>
+</td>
+<td>
+<span class="">
+    <a href="lab/lab10/index.html" class="assignment-text">Lab 10: Programs as Data, Macros</a>
+<div class="badge due">
+  Due
+  Wed 4/22
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="lab/sol-lab10/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZdGRYz2UKK_Nk-SIfc9ZKaS" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><a id="calendar_4_22" class="calendar-date-anchor"></a>Wed<br>4/22</td>
+<td>
+<div class="assignment-text">
+  34. Aggregation
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.askademia.org/cs61a/sp26/playlists/aggregation" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-34-aggregation" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/34-Aggregation.pdf" class="label label-outline">Slides (pdf)</a></li>
+<li><a href="assets/slides/34.sql" class="label label-outline">34.sql</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  
+</ul>
+</td>
+<td>
+<span class="">
+    <a href="disc/disc11/index.html" class="assignment-text">Disc 11: Macros</a>
+    
+<ul class="list-inline">
+  <li><a href="disc/sol-disc11/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZeOtYbC8-DVlp4QFRrrTBNm" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><a id="calendar_4_24" class="calendar-date-anchor"></a>Fri<br>4/24</td>
+<td>
+<div class="assignment-text">
+  35. Databases
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.askademia.org/cs61a/sp26/playlists/databases" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-35-databases" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/35-Databases.pdf" class="label label-outline">Slides (pdf)</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  
+</ul>
+</td>
+<td></td>
+<td>
+<span class="">
+    <a href="hw/hw10/index.html" class="assignment-text">HW 10: SQL</a>
+<div class="badge due">
+  Due
+  Fri 5/1
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="hw/sol-hw10/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZcEFm0zQF3292_HHg371oEw" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+</tr>
+<tr class="odd">
+<td rowspan="3" class="weeknum odd">15</td>
+<td><a id="calendar_4_27" class="calendar-date-anchor"></a>Mon<br>4/27</td>
+<td>
+<div class="assignment-text">
+  36. Programming for Fun (Optional)
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-36-programming-for-fun-optional" class="label label-outline" target="_blank">Recording</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  
+</ul>
+</td>
+<td>
+<span class="">
+    <a href="lab/lab11/index.html" class="assignment-text">Lab 11: SQL</a>
+<div class="badge due">
+  Due
+  Wed 4/29
+</div>
+
+    
+<ul class="list-inline">
+  <li><a href="lab/sol-lab11/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://youtube.com/playlist?list=PLx38hZJ5RLZcT96fbelbvVGg1I8D2jRjp" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><a id="calendar_4_29" class="calendar-date-anchor"></a>Wed<br>4/29</td>
+<td>
+<div class="assignment-text">
+  37. Designing Functions
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://www.askademia.org/cs61a/sp26/playlists/designing-functions" class="label label-outline" target="_blank">Videos</a></li>
+<li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-37-designing-functions" class="label label-outline" target="_blank">Recording</a></li>
+<li><a href="assets/slides/37-Designing_Functions.pdf" class="label label-outline">Slides (pdf)</a></li>
+<li><a href="assets/slides/37-memoize.py" class="label label-outline">37-memoize.py</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  
+</ul>
+</td>
+<td>
+<span class="">
+    <a href="disc/disc12/index.html" class="assignment-text">Disc 12: SQL</a>
+    
+<ul class="list-inline">
+  <li><a href="disc/sol-disc12/index.html" class="label label-outline">Solutions</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLx38hZJ5RLZf_cf1B0v90fBzosOHC8W5R" class="label label-outline" target="_blank">Video</a></li>
+</ul>
+
+</span>
+</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><a id="calendar_5_01" class="calendar-date-anchor"></a>Fri<br>5/1</td>
+<td>
+<div class="assignment-text">
+  38. Conclusion
+</div>
+
+<ul class="list-inline">
+  <li><a href="https://bcourses.berkeley.edu/courses/1552311/pages/lecture-38-conclusion" class="label label-outline" target="_blank">Recording</a></li>
+</ul>
+</td>
+<td>
+<ul class="list-inline">
+  
+</ul>
+</td>
+<td></td>
+<td>
+<span class="">
+    <a href="hw/hw11/index.html">HW 11: Finale</a>
+<div class="badge due">
+  Due
+  Sun 5/10
+</div>
+
+    
+</span>
+</td>
+</tr>
+<tr class="even">
+<td rowspan="3" class="weeknum even">16</td>
+<td><a id="calendar_5_04" class="calendar-date-anchor"></a>Mon<br>5/4</td>
+<td>No Lecture: RRR Week</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><a id="calendar_5_06" class="calendar-date-anchor"></a>Wed<br>5/6</td>
+<td>No Lecture: RRR Week</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><a id="calendar_5_08" class="calendar-date-anchor"></a>Fri<br>5/8</td>
+<td>No Lecture: RRR Week</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td rowspan="1" class="weeknum odd">17</td>
+<td><a id="calendar_5_12" class="calendar-date-anchor"></a>Tue<br>5/12</td>
+<td>Final (8am-11am)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+</section>
+
+
+    </main>
+
+    <!-- <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="/">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/weekly">Weekly Schedule</a></li>
+            <li><a href="/office-hours">Office Hours</a></li>
+            <li><a href="/staff">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="/resources">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/articles/studying">Studying Guide</a></li>
+            <li><a href="/articles/debugging">Debugging Guide</a></li>
+            <li><a href="/articles/composition">Composition Guide</a></li>
+            <li><a href="/articles/pair-programming">Pair Programming</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="/articles/about">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/articles/about#assignments">Assignments</a></li>
+            <li><a href="/articles/about#exams">Exams</a></li>
+            <li><a href="/articles/about#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer> -->
+
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.20.0/min/vs/loader.min.js"></script>
+  <link rel="stylesheet" data-name="vs/editor/editor.main" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.20.0/min/vs/editor/editor.main.min.css">
+  <script>
+      require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.20.0/min/vs' }});
+      window.MonacoEnvironment = { getWorkerUrl: () => URL.createObjectURL(new Blob([`
+      self.MonacoEnvironment = {
+          baseUrl: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.20.0/min'
+      };
+      importScripts('https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.20.0/min/vs/base/worker/workerMain.min.js');
+  `], { type: 'text/javascript' }))
+  };
+  </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsPlumb/2.15.5/js/jsplumb.min.js"></script>
+    <script src="assets/js/network_storage.js"></script>
+    <script src="assets/js/code_tabindex.js"></script>
+    <script src="assets/js/storable.js"></script>
+    <script src="assets/js/editor.js"></script>
+    <script src="assets/js/copy-button.js"></script>
+    <script src="assets/js/env-diagram.js"></script>
+    
+<script>
+$(document).ready(function() {
+  // Assignment quick list
+  var assignments = [];
+
+  $(document).ready(function() {
+    assignments.forEach(function(assignment) {
+      $('#assignments').append(
+          '<a href="https://cs61a.org/'&#32;+&#32;assignment.link&#32;+&#32;'" class="btn btn-outline btn-lg assignment-btn">'
+          + assignment.name
+          + (assignment.due !== null ? ' <span class="badge">' + assignment.due + '</span></a>\n' : ''));
+    });
+  });
+
+  // Announcements
+  var announcementIndex = 0;
+
+  function setAnnouncements(offset) {
+    var newIndex = announcementIndex  + offset;
+    var announcementNumber = $('.announcement').length;
+
+    if (newIndex < 0 || newIndex >= announcementNumber) {
+      return;
+    }
+
+    $('#announcement-' + announcementIndex).hide(0, function() {
+      $('#announcement-' + newIndex).show(0);
+    });
+
+    announcementIndex = newIndex;
+
+    if (announcementIndex >= announcementNumber - 1) {
+      $('#announcement-' + announcementIndex + ' .prev')
+        .addClass('disabled');
+    }
+    if (announcementIndex === 0) {
+      $('#announcement-' + announcementIndex + ' .next')
+        .addClass('disabled');
+    }
+  }
+  setAnnouncements(0);
+
+  $('.next').click(function() {
+    setAnnouncements(-1);
+  });
+   $('.prev').click(function() {
+     setAnnouncements(1);
+   });
+
+ });
+
+ let build_time = new Date(1000 * 1780995177.421823);
+ </script>
+ <script>
+  $('.alwaystoggle').css('display', 'inline-block');
+    $('.alwaystoggle').click(function() {
+      var solution_id = $(this).attr('id');
+      $('div.' + solution_id).slideToggle(600);
+    });
+ </script>
+ 
+  </body>
+</html>
