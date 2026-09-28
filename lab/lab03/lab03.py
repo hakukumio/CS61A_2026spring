@@ -18,6 +18,8 @@ def close(s: list[int], k: int) -> int:
     count = 0
     for i in range(len(s)):  # Use a range to loop over indices
         "*** YOUR CODE HERE ***"
+        if (s[i] - i) <= k:
+            count+=1
     return count
 
 
@@ -33,7 +35,7 @@ def close_list(s: list[int], k: int) -> list[int]:
     [2, 4, 3, 5]
     """
     assert k >= 0
-    return [___ for i in range(len(s)) if ___]
+    return [s[i] for i in range(len(s)) if s[i]-i<=k]
 
 
 def double_eights(n: int) -> bool:
@@ -58,7 +60,17 @@ def double_eights(n: int) -> bool:
     True
     """
     "*** YOUR CODE HERE ***"
-
+    digit = n%10
+    if n//10 == 0:    #n is sigle digit
+        return False
+    if digit == 8:    # n is not sigle digit and digit == 8
+        upper_digit = n//10%10 #check upper digit
+        if upper_digit == 8:   #upper digit is 8
+            return True
+        else:
+            return double_eights(n//100) #upper digit is not 8
+    else:
+        return double_eights(n//10)      #n is not sigle digit and digit != 8
 
 def make_onion(f, g):
     """Return a function can_reach(x, y, limit) that returns
@@ -86,11 +98,11 @@ def make_onion(f, g):
     """
     def can_reach(x, y, limit):
         if limit < 0:
-            return ____
+            return False
         elif x == y:
-            return ____
+            return True
         else:
-            return can_reach(____, ____, limit - 1) or can_reach(____, ____, limit - 1)
+            return can_reach(f(x), y, limit - 1) or can_reach(g(x), y, limit - 1)
     return can_reach
 
 
@@ -102,12 +114,12 @@ def make_func_repeater(f, x):
     >>> increment_repeater(5)
     6
     """
-    def repeat(____):
-        if ____:
-            return ____
+    def repeat(f,x,n):
+        if x == 1:
+            return f(n)
         else:
-            return ____
-    return ____
+            return f(repeat(f,x-1,n))
+    return lambda n:repeat(f,x,n)
 
 
 def ten_pairs(n):
@@ -125,6 +137,15 @@ def ten_pairs(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    def count_ten_pairs(n,current_num):
+        count = 0
+        if current_num==5:
+            count = count_digit(n,5)
+            return count*(count-1)//2
+        else:
+            count = count_digit(n,current_num) * count_digit(n,10-current_num)
+            return count_ten_pairs(n,current_num+1)+count
+    return count_ten_pairs(n,1)
 
 
 def count_digit(n, digit):
@@ -138,4 +159,9 @@ def count_digit(n, digit):
     True
     """
     "*** YOUR CODE HERE ***"
+    #print(f"call count_digit(%d  %d)",n,digit)
+    if n==0:
+        return 0
+    else:
+        return count_digit(n//10,digit) + (1 if (n%10)==digit else 0)
 
