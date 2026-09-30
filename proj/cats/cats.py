@@ -161,14 +161,14 @@ def memo_diff(diff_function):
         # BEGIN PROBLEM EC
         "*** YOUR CODE HERE ***"
         current_args = (entered,source)
-        mirror_args = (entered,source)
+        mirror_args = (source,entered)
         if current_args in cache:
             args = current_args
         elif mirror_args in cache:
             args = mirror_args
         else:
             args = None
-        if (args != None) and (limit < cache[args]['result'] or (cache[args]['result'] <= cache[args]['limit'])):
+        if (args is not None) and (limit < cache[args]['result'] or (cache[args]['result'] <= cache[args]['limit'])):
             return cache[args]['result']
         else:
             args = current_args
