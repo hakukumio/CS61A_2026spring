@@ -273,21 +273,14 @@ class VirFib():
 
     def __init__(self, value: int = 0):
         self.value = value
+        self.prev = 0
 
     def next(self):
         "*** YOUR CODE HERE ***"
-        newfib = VirFib()
-        newfib.prev = 0
-        if self.value == 0:
-            new_prev = 0
-            new_value = 1
-        else:
-            new_prev = self.value
-            new_value = self.prev + self.value
-        newfib.value = new_value
-        newfib.prev = new_prev
-        return newfib
-
+        result = VirFib(self.value + self.prev)
+        result.prev = self.value
+        return result
+        
     def __repr__(self) -> str:
         return "VirFib object, value " + str(self.value)
 
