@@ -1,3 +1,6 @@
+from typing import Any
+
+
 def sum_naturals(n):
     total,k = 0,1
     while k <= n:
@@ -90,3 +93,31 @@ def sum_range(start,end,step):
         return -1
     else:
         return summation((end-start)//step+1,lambda x:(start + (x-1)*step))
+
+
+class Account:
+    """A bank account that has a non-negative balance."""
+    interest = 0.02
+    def __init__(self, account_holder):
+        self.balance = 0
+        self.holder = account_holder
+    def deposit(self, amount):
+        """Increase the account balance by amount and return the new balance."""
+        self.balance = self.balance + amount
+        return self.balance
+    def withdraw(self, amount):
+        """Decrease the account balance by amount and return the new balance."""
+        if amount > self.balance:
+            return 'Insufficient funds'
+        self.balance = self.balance - amount
+        return self.balance
+
+#继承
+#子类会获得来自夫类的东西，并且可以重写/添加
+class CheckingAccount(Account):
+        """A bank account that charges for withdrawals."""
+        withdraw_charge = 1
+        interest = 0.01
+        def withdraw(self, amount):
+            return Account.withdraw(self, amount + self.withdraw_charge)
+
